@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Meu Amor Para Minha Princesa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .music-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .music-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .music-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .music-btn:active {
+            transform: translateY(0);
+        }
+
+        .header h1 {
+            color: #d63384;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .love-timer {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .love-timer h2 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .timer-unit {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .timer-unit .number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .timer-unit .label {
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .love-letter {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ffc0cb;
+        }
+
+        .love-letter h2 {
+            color: #d63384;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-decoration: underline;
+        }
+
+        .love-letter p {
+            font-size: 1.1em;
+            text-align: justify;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .photo-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .photo-section h2 {
+            color: #d63384;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .photo-placeholder {
+            background: #f8f9fa;
+            border: 3px dashed #d63384;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            aspect-ratio: 3/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* Estilos para quando a imagem for carregada */
+        .photo-placeholder[style*="background-image"] {
+            border: 3px solid #d63384;
+        }
+
+        .photo-placeholder[style*="background-image"] span {
+            display: none;
+        }
+
+        .photo-placeholder:hover {
+            background: #fff;
+            border-color: #ff6b6b;
+            transform: translateY(-5px);
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 192, 203, 0.6);
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10%, 90% { opacity: 1; }
+            50% { transform: translateY(-100px) rotate(180deg); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .timer-display {
+                gap: 10px;
+            }
+            
+            .timer-unit {
+                min-width: 60px;
+                padding: 10px;
+            }
+            
+            .love-letter {
+                padding: 20px;
+            }
+            
+            .photo-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>💕 Do Meu Amor Para Minha Princesa 💕</h1>
+            <div class="music-controls">
+                <button id="playPause" class="music-btn">🎵 Tocar Música</button>
+                <input type="file" id="musicFile" accept="audio/*" style="display: none;">
+                <button id="uploadMusic" class="music-btn">📁 Escolher Música</button>
+            </div>
+            <audio id="backgroundMusic" loop>
+                <source src="musica_romantica.mp3" type="audio/mpeg">
+                <!-- Você pode colocar sua música aqui -->
+            </audio>
+        </div>
+
+        <div class="love-timer">
+            <h2>💖 Nosso Tempo de Amor 💖</h2>
+            <p>Desde 06 de agosto de 2023</p>
+            <div class="timer-display" id="timer">
+                <div class="timer-unit">
+                    <span class="number" id="years">0</span>
+                    <span class="label">Anos</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="number" id="months">0</span>
+                    <span class="label">Meses</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="number" id="days">0</span>
+                    <span class="label">Dias</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="number" id="hours">0</span>
+                    <span class="label">Horas</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="number" id="minutes">0</span>
+                    <span class="label">Minutos</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="number" id="seconds">0</span>
+                    <span class="label">Segundos</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="love-letter">
+            <h2>Do Seu Momo Para Minha Princesa</h2>
+            <p>Oi minha princesa,</p>
+            <p>Espero que fique feliz com esta cartinha. Sei que às vezes sou meio difícil de lidar, mas quero que saiba que amo muito você. Desde que você entrou na minha vida, absolutamente tudo melhorou. Lembro que, no começo, você tinha medo que eu não estivesse feliz com nosso relacionamento e como ele seria. E, realmente, é algo bem novo, mas esta foi a melhor escolha que já fiz.</p>
+            <p>Às vezes, tem dias difíceis porque meu corpo não entende, mas juro que tento. Amor, quero que saiba que nossa relação tem sido algo totalmente maravilhoso. Não me arrependo de nenhum dia de ter dito sim para você, meu amor. Obrigado por me escolher para dividir a vida.</p>
+            <p>Amor, prometo lhe fazer a mulher mais feliz deste mundo. Espero que eu já te faça a namorada mais feliz deste mundo e que eu esteja demonstrando meu amor da forma certa para você, lhe tratando bem. Quero que esteja feliz em nosso relacionamento, assim como eu estou.</p>
+            <p>Você me tornou um homem muito melhor, obrigado por isso amor. Por você e nosso pai me salvarem, amo muito vocês dois, vou amar você até o último dia da minha vida ❤️</p>
+        </div>
+
+        <div class="photo-section">
+            <h2>📸 Nossas Memórias Especiais 📸</h2>
+            <div class="photo-grid">
+                <div class="photo-placeholder" id="photo1">
+                    <span>🖼️<br>Substitua esta área<br>pela primeira foto</span>
+                </div>
+                <div class="photo-placeholder" id="photo2">
+                    <span>🖼️<br>Substitua esta área<br>pela segunda foto</span>
+                </div>
+                <div class="photo-placeholder" id="photo3">
+                    <span>🖼️<br>Substitua esta área<br>pela terceira foto</span>
+                </div>
+                <div class="photo-placeholder" id="photo4">
+                    <span>🖼️<br>Substitua esta área<br>pela quarta foto</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.8); border-radius: 10px; text-align: left;">
+                <h3 style="color: #d63384; margin-bottom: 15px;">📝 Como adicionar suas fotos permanentemente:</h3>
+                <ol style="color: #666; line-height: 1.8;">
+                    <li>Coloque suas fotos na mesma pasta do arquivo HTML</li>
+                    <li>Renomeie as fotos para: <strong>foto1.jpg</strong>, <strong>foto2.jpg</strong>, <strong>foto3.jpg</strong>, <strong>foto4.jpg</strong></li>
+                    <li>Ou edite o código HTML substituindo "COLOQUE_AQUI_O_CAMINHO_DA_FOTO" pelo nome correto da sua foto</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💕 Feito com muito amor para minha princesa 💕</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para calcular o tempo de relacionamento
+        function updateTimer() {
+            const startDate = new Date('2023-08-06T00:00:00');
+            const now = new Date();
+            const diff = now - startDate;
+
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Atualizar timer a cada segundo
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Criar corações flutuantes
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('hearts').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Criar corações periodicamente
+        setInterval(createHeart, 800);
+
+        // Funcionalidade para adicionar fotos (placeholder)
+        document.querySelectorAll('.photo-placeholder').forEach(placeholder => {
+            placeholder.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            placeholder.style.backgroundImage = `url(${e.target.result})`;
+                            placeholder.style.backgroundSize = 'cover';
+                            placeholder.style.backgroundPosition = 'center';
+                            placeholder.innerHTML = '';
+                            placeholder.style.border = '3px solid #d63384';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                input.click();
+            });
+        });
+
+        // Função para carregar fotos permanentes
+        function loadPermanentPhotos() {
+            const photos = ['foto1.jpg', 'foto2.jpg', 'foto3.jpg', 'foto4.jpg'];
+            
+            photos.forEach((photo, index) => {
+                const img = new Image();
+                img.onload = function() {
+                    const placeholder = document.getElementById(`photo${index + 1}`);
+                    placeholder.style.backgroundImage = `url(${photo})`;
+                    placeholder.style.backgroundSize = 'cover';
+                    placeholder.style.backgroundPosition = 'center';
+                    placeholder.innerHTML = '';
+                    placeholder.style.border = '3px solid #d63384';
+                };
+                img.onerror = function() {
+                    // Foto não encontrada, mantém o placeholder
+                    console.log(`Foto ${photo} não encontrada`);
+                };
+                img.src = photo;
+            });
+        }
+
+        // Carregar fotos permanentes quando a página carregar
+        window.addEventListener('load', loadPermanentPhotos);
+
+        // Funcionalidade de música
+        const audio = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPause');
+        const uploadMusicBtn = document.getElementById('uploadMusic');
+        const musicFile = document.getElementById('musicFile');
+
+        let isPlaying = false;
+
+        playPauseBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.innerHTML = '🎵 Tocar Música';
+                isPlaying = false;
+            } else {
+                audio.play().catch(e => {
+                    console.log('Erro ao tocar música:', e);
+                    alert('Clique em "Escolher Música" para adicionar uma música primeiro!');
+                });
+                playPauseBtn.innerHTML = '⏸️ Pausar Música';
+                isPlaying = true;
+            }
+        });
+
+        uploadMusicBtn.addEventListener('click', function() {
+            musicFile.click();
+        });
+
+        musicFile.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                audio.src = url;
+                alert('Música carregada! Agora você pode tocar clicando no botão "Tocar Música".');
+            }
+        });
+
+        // Tentar carregar música padrão
+        audio.addEventListener('loadeddata', function() {
+            console.log('Música carregada com sucesso!');
+        });
+
+        audio.addEventListener('error', function() {
+            console.log('Nenhuma música padrão encontrada. Use o botão para escolher uma música.');
+        });
+    </script>
+</body>
+</html>
